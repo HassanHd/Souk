@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:souk/view/Screenes/HomeScreens/HomeBottomNavBar.dart';
 import 'dart:convert';
 import 'dart:async';
 
@@ -29,7 +30,7 @@ class SignupControler extends GetxController {
     // print("isprifs$_id");
     if(responseBody!=null){
       Get.snackbar("Souk", "Signup completed successfully");
-      Get.to(HomeScreenes());
+      Get.to(HomeBottomNavBar());
     }
     else{
       Get.snackbar("Souk", "There is a connection problem that may be due to your internet");

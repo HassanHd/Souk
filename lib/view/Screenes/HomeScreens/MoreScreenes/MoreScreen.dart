@@ -9,7 +9,7 @@ import 'package:souk/view/utils/custom_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../constant.dart';
-import 'AboutASC.dart';
+import 'About.dart';
 import 'DataPolicyScreen.dart';
 import 'FAQScreen.dart';
 import 'NotificationScreen.dart';
@@ -27,17 +27,17 @@ class MoreScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
+        // centerTitle: true,
         title: CustomText(
           text: "More",
           color: primarycolor,
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
         ),
         // leading: IconButton(
         //   icon: Icon(
-        //     Icons.arrow_back,
-        //     color: butcolor,
+        //     Icons.arrow_back_ios,
+        //     color: primarycolor,
         //     size: 35,
         //   ),
         //   onPressed: () {
@@ -51,10 +51,10 @@ class MoreScreen extends StatelessWidget {
         child: ListView(
 
           children: [
-            CustomListTile(text: "About ASC",icons: "assats/icons/info.svg",
+            CustomListTile(text: "About",icons: "assats/icons/info.svg",
               onTap: (){
                 Navigator.of(context,rootNavigator: true).push( CupertinoPageRoute(builder: (BuildContext context) {
-                  return AboutASC();
+                  return AboutScreen();
                 }));
               },
             ),
@@ -124,10 +124,10 @@ class MoreScreen extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: MediaQuery.of(context).size.height/20,),
+            SizedBox(height: MediaQuery.of(context).size.height/30,),
             CustomText(text:"V1.0.0",color: primarycolor,textAlign: TextAlign.center,fontWeight: FontWeight.bold,fontSize: 21,),
             Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,7 +145,7 @@ class MoreScreen extends StatelessWidget {
                       child: CrossPlatformSvg.asset("assats/icons/instagram.svg",width: 30,height: 30)),
                 ],),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height/20,),
+            SizedBox(height: MediaQuery.of(context).size.height/15,),
 
 
 

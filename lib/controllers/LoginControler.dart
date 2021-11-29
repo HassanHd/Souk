@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:souk/view/Screenes/HomeScreens/HomeBottomNavBar.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:souk/view/Screenes/HomeScreens/HomeScreenes.dart';
@@ -39,7 +40,7 @@ class LoginControler extends GetxController {
       String? idcheck = preferences.getString("id")?.toString();
       print("idcheck===>$idcheck");
       Get.snackbar("Souk", "Login completed successfully");
-      Get.offAll(HomeScreenes());
+      Get.offAll(HomeBottomNavBar());
     } else {
       Get.snackbar("Souk",
           "There is a connection problem that may be due to your internet");

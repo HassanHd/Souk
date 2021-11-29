@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:souk/view/Screenes/auth/LoginScreen.dart';
-import 'package:souk/view/Screenes/auth/SignupScreen.dart';
 import 'package:souk/view/utils/nave.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'constant.dart';
 import 'controllers/ControlerView.dart';
-import 'view/Screenes/HomeScreens/HomeScreenes.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 

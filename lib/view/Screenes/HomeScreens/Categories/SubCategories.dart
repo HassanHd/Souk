@@ -3,29 +3,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:souk/controllers/ControllerCategory.dart';
+import 'package:souk/controllers/ControllerSubCategories.dart';
 import 'package:souk/view/utils/custom_text.dart';
 
 import '../../../../constant.dart';
-import 'SubCategories.dart';
+import 'ProductListScreen.dart';
 
-class CategoriesScreen extends GetWidget<ControllerCategory> {
-  final ControllerCategory c = Get.put(ControllerCategory());
+class SubCategoriesScreen extends GetWidget<ControllerSubCategories> {
+  int id;
+  String name;
+
+  SubCategoriesScreen(this.id,this.name) {
+    c.fetchSubCategories(id).then((value) => c.update());
+  }
+
+  final ControllerSubCategories c = Get.put(ControllerSubCategories());
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ControllerCategory>(
+    return GetBuilder<ControllerSubCategories>(
       builder: (controller) => Scaffold(
+
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           // centerTitle: true,
           title: CustomText(
-            text: "Categories",
+            text: "$name",
             color: primarycolor,
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
-
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: primarycolor,
+              size: 35,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
 
         ),
         body: SafeArea(
@@ -45,10 +63,10 @@ class CategoriesScreen extends GetWidget<ControllerCategory> {
                   // focusColor: primarycolor,
                   highlightColor: primarycolor,
                   // hoverColor: Colors.red,
-                  onTap: ()=> {
+                  onTap: () => {
                     Navigator.of(context, rootNavigator: true).push(
                         MaterialPageRoute(
-                            builder: (context) => new SubCategoriesScreen( controller.listDataModel[index].id,controller.listDataModel[index].name_en)))
+                            builder: (context) => new ProductListScreen( controller.listDataModel[index].id,controller.listDataModel[index].brand)))
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -59,9 +77,7 @@ class CategoriesScreen extends GetWidget<ControllerCategory> {
                       ),
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
-                          bottomRight: Radius.circular(25.0)
-
-                      ),
+                          bottomRight: Radius.circular(25.0)),
                       color: Colors.white,
                     ),
                     child: Column(
@@ -71,24 +87,13 @@ class CategoriesScreen extends GetWidget<ControllerCategory> {
                           padding: EdgeInsets.all(10),
                           width: 72,
                           height: 67,
-                          // color: Colors.white,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0),
-
-                            ),
-                            color: Colors.white ,
-                          ),
 //            decoration: BoxDecoration(
 //                shape: BoxShape.circle, color: identifyColor(index)),
                           child: CachedNetworkImage(
                             width: 64,
                             height: 64,
                             fit: BoxFit.cover,
-                            imageUrl:
-                                "https://www.srcform.com/image/category/" +
-                                    controller.listDataModel[index].image,
+                            imageUrl:"https://www.srcform.com/photos/Brand/"+controller.listDataModel[index].images,
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                           ),
@@ -102,7 +107,7 @@ class CategoriesScreen extends GetWidget<ControllerCategory> {
                         ),
                         Expanded(
                           child: Text(
-                            controller.listDataModel[index].name_en,
+                            controller.listDataModel[index].brand,
                             maxLines: 2,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,

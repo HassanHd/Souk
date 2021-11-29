@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:souk/controllers/ControllerCategory.dart';
+import 'package:souk/controllers/Controllerofferproducts.dart';
 import 'package:souk/models/slider.dart';
 import 'package:http/http.dart' as http;
+import 'package:souk/view/Screenes/HomeScreens/Categories/CategoriesScreen.dart';
+import 'package:souk/view/Screenes/HomeScreens/Categories/ProductDescription.dart';
+import 'package:souk/view/Screenes/HomeScreens/Categories/SubCategories.dart';
 import 'package:souk/view/utils/custom_text.dart';
 import 'dart:convert';
 
@@ -24,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ScrollController? _controller;
   final _listViewKey = GlobalKey();
   final ControllerCategory c =Get.put(ControllerCategory());
+  final Controllerofferproducts x =Get.put(Controllerofferproducts());
 
 
   Future<List<slider>> _getSlider() async {
@@ -54,11 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
+        // centerTitle: true,
         title: CustomText(
-          text: "Home",
+          text: "Souk",
           color: primarycolor,
-          fontSize: 20,
+          fontSize: 25,
           fontWeight: FontWeight.bold,
         ),
 
@@ -85,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: MediaQuery
                             .of(context)
                             .size
-                            .height / 3,
+                            .height / 4,
                         initialPage: 0,
                         enableInfiniteScroll: false,
                         reverse: false,
@@ -105,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               child: Image.network(
                                "https://www.srcform.com/image/slider/${snapshot.data[index].image_slider}",
-                                  fit: BoxFit.fitWidth
+                                   // fit: BoxFit.fitWidth
                               )),
                         );
                       });
@@ -144,13 +149,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w600,
                           text: "Categories",),
                         TextButton(
-                          onPressed: () {
-                            print("Hi");
-                            // NavigationService
-                            //     .instance.navigationKey!.currentState!
-                            //     .pushNamed(
-                            //   "CategoriesListView",
-                            // );
+                          onPressed: () => {
+                            Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                    builder: (context) => new CategoriesScreen( )))
                           },
                           child: Text(
                             "View All",
@@ -175,19 +177,10 @@ class _HomeScreenState extends State<HomeScreen> {
           // focusColor: primarycolor,
           highlightColor: primarycolor,
           // hoverColor: Colors.red,
-          onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) =>
-            //           ListSubCategories(
-            //               snapshot.data[index]
-            //                   .category_name,
-            //               snapshot.data[index].id)),
-            //   // MaterialPageRoute(builder: (context) => verifyAccount(email)),
-            // );
-
-            print("Clicked grid item");
+          onTap: () => {
+            Navigator.of(context, rootNavigator: true).push(
+                MaterialPageRoute(
+                    builder: (context) => new SubCategoriesScreen( controller.listDataModel[index].id,controller.listDataModel[index].name_en)))
           },
           child: Container(
             alignment: Alignment.center,
@@ -208,19 +201,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 72,
                   height: 72,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: bordercolor),
+                borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+              bottomRight: Radius.circular(10.0)),
+          color: primarycolor,
+        ),
                   child: Container(
                     padding: EdgeInsets.all(10),
                     width: 72,
                     height: 72,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          bottomRight: Radius.circular(25.0)),
+                      color: Colors.white,
+
+                    ),
                     child: CachedNetworkImage(
                       width: 60,
                       height: 60,
-                      fit: BoxFit.cover,
+                      // fit: BoxFit.cover,
                       imageUrl: "https://www.srcform.com/image/category/"+controller.listDataModel[index].image ,
 
                       errorWidget:
@@ -279,6 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     .height/3,
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 child: Column(children: [
+
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 5),
                     alignment: Alignment.topLeft,
@@ -286,26 +287,242 @@ class _HomeScreenState extends State<HomeScreen> {
                         .of(context)
                         .size
                         .width,
-                    child: CustomText(
-                      textAlign: TextAlign.left,
-                      color: black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      text: "Hot Deals",),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          textAlign: TextAlign.left,
+                          color: black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          text: "Hot Deals",),
+                        TextButton(
+                          onPressed: () => {
+                            Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                    builder: (context) => new CategoriesScreen( )))
+                          },
+                          child: Text(
+                            "View All",
+                            style: clickableCaption(context),
+                          ),
+                        ),
+                      ],
+                    ),
+
+
                   ),
                   Container(
                     height: MediaQuery
                         .of(context)
                         .size
                         .height/4,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
+                    child: GetBuilder<Controllerofferproducts>(
+                      builder: (controller) => ListView.builder(
+    itemCount:controller.listDataModel.length,
+    scrollDirection: Axis.horizontal,
+    itemBuilder: (BuildContext context, int index) {
+      return InkWell(
+        // focusColor: primarycolor,
+        highlightColor: primarycolor,
+        // hoverColor: Colors.red,
+        onTap: () {
+          Navigator.of(context, rootNavigator: true).push(
+              MaterialPageRoute(
+                  builder: (context) => new ProductDescription(controller.listDataModel[index].id.toString())));
+        },
+        child: Card(
+          elevation: 5,
+          child: Container(
+            alignment: Alignment.center,
 
-                      children: [
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.white),
+                  child: Hero(
+                    tag: "Heroimg",
+                    child: CachedNetworkImage(
+                      width: 64,
+                      height: 64,
+                      fit: BoxFit.cover,
+                      imageUrl:"https://www.srcform.com/image/product/"+controller.listDataModel[index].main_image,
+                      errorWidget:
+                          (context, url, error) =>
+                          Icon(Icons.error),
+                    ),
+                  ),
+                  //child: CircleAvatar(
+                  //              radius: 48,
+                  //              backgroundImage: AssetImage("images/img_${index + 1}.jpg"),
+                  //            ),
+                ),
+                SizedBox(height: 4),
 
+                Container(
+                  alignment: Alignment.topLeft,
+                  width: 90,
+                  child: Row(
+                    children: [
+                      Text(
+                        "${controller.listDataModel[index].sale_price} AED ",
+                        maxLines: 1,
+                        textAlign: TextAlign.left,
+                        // overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 9,
+                            fontWeight:
+                            FontWeight.w800),
+                      ),
+                      Text(
+                        "${controller.listDataModel[index].reqular_price} AED ",
+                        maxLines: 1,
+                        textAlign: TextAlign.left,
+                        // overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 9,
+                            fontWeight:
+                            FontWeight.w800,
+                            decorationColor:
+                            primarycolor,
+                            decorationStyle:
+                            TextDecorationStyle
+                                .solid,
+                            decoration:
+                            TextDecoration
+                                .lineThrough,
+                            color: primarycolor),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 4),
+                Container(
+                  alignment: Alignment.topLeft,
+                  width: 80,
+                  child: Text(
+                    "${controller.listDataModel[index].slug}",
+                    maxLines: 1,
+                    textAlign: TextAlign.left,
+                    // overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 9,
+                        fontWeight:
+                        FontWeight.normal),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    width: 80,
+                    child: Text(
+                      "${controller.listDataModel[index].quantity}",
+                      textAlign: TextAlign.left,
+                      // overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 8,
+                          fontWeight:
+                          FontWeight.w800),
+                    ),
+                  ),
+                ),
+                // ignore: deprecated_member_use
 
+                Padding(
+                  padding:
+                  const EdgeInsets.all(5.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      // Api.addToCart(
+                      //     snapshot.data[index].id
+                      //         .toString(),
+                      //     "1");
 
-                      ],
+                      final snackBar = SnackBar(
+                        content: const Text(
+                            'This product has been added to your cart.'),
+                        action: SnackBarAction(
+                          label: 'OK',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+
+                      // Find the ScaffoldMessenger in the widget tree
+                      // and use it to show a SnackBar.
+                      ScaffoldMessenger.of(
+                          context)
+                          .showSnackBar(snackBar);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(
+                            2),
+                        color: primarycolor,
+                      ),
+                      width: 90,
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment
+                            .spaceBetween,
+                        crossAxisAlignment:
+                        CrossAxisAlignment
+                            .start,
+                        children: <Widget>[
+                          Container(
+                            child: Text(
+                              'ADD',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight:
+                                FontWeight
+                                    .w700,
+                                color:
+                                Colors.white,
+                              ),
+                            ),
+                            height: 30,
+                            width: 60,
+                            alignment:
+                            Alignment.center,
+                          ),
+                          Container(
+                            height: 30,
+                            width: 20,
+                            decoration:
+                            BoxDecoration(
+                              borderRadius:
+                              BorderRadius
+                                  .circular(
+                                  2),
+                              color:
+                              primarydarkcolor,
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 14.0,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+                      ),
                     ),
                   )
 

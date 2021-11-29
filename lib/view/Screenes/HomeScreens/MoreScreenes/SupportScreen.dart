@@ -15,7 +15,7 @@ class SupportScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
+        // centerTitle: true,
         title: CustomText(
           text: "Support",
           color: primarycolor,
@@ -24,7 +24,7 @@ class SupportScreen extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios,
             color: primarycolor,
             size: 35,
           ),

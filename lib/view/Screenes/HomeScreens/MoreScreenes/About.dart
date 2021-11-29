@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:souk/controllers/Contactus.dart';
+import 'package:souk/controllers/About.dart';
 import 'package:souk/view/utils/custom_text.dart';
 
 import '../../../../constant.dart';
-class TermsScreen extends StatelessWidget {
-  const TermsScreen({Key? key}) : super(key: key);
+class AboutScreen extends StatelessWidget {
+  const AboutScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class TermsScreen extends StatelessWidget {
         elevation: 0,
         // centerTitle: true,
         title: CustomText(
-          text: "Terms & Conditions",
+          text: "About",
           color: primarycolor,
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -36,7 +36,7 @@ class TermsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
           child: Container(
               child:FutureBuilder(
-                  future:Contactus.fetchContactus(),
+                  future:About.fetchAbout(),
                   builder: (context, snapshot) {
                     if(snapshot.data == null){
                       return Center(
@@ -61,6 +61,8 @@ class TermsScreen extends StatelessWidget {
                       );
                     }
                   }
+
+
               )
           )
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:souk/controllers/Contactus.dart';
 import 'package:souk/view/utils/custom_text.dart';
-
 import '../../../../constant.dart';
 class DataPolicyScreen extends StatelessWidget {
   const DataPolicyScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class DataPolicyScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
+        // centerTitle: true,
         title: CustomText(
           text: "Data Policy",
           color: primarycolor,
@@ -21,7 +22,7 @@ class DataPolicyScreen extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios,
             color: primarycolor,
             size: 35,
           ),
@@ -31,27 +32,36 @@ class DataPolicyScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-        child:ListView(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 12,
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: CustomText(
-                text:
-                "Plan your game is our most interesting service. As a user you can book the court most convenient for you and invite other players using our website or app. They can confirm or decline and you can manage the game status as the game planner. ",
-                fontSize: 16,
-                color: black,
-                textAlign:TextAlign.center ,
-                fontWeight: FontWeight.bold,
-                // alignment: Alignment.center,
-              ),
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          child: Container(
+              child:FutureBuilder(
+                  future:Contactus.fetchContactus(),
+                  builder: (context, snapshot) {
+                    if(snapshot.data == null){
+                      return Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: primarycolor,
+                            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                      );
+                    }
+                    else {
+                      return ListView(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            width: MediaQuery.of(context).size.width,
+                            child: Html(
+                              data:snapshot.data as String,
+                            ),
+                          )
 
-          ],
-        ),
+                        ],
+                      );
+                    }
+                  }
+              )
+          )
       ),
     );
   }
